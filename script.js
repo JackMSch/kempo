@@ -4,6 +4,8 @@ let stopButton = document.getElementById("stop");
 let speedSlider = document.getElementById("speedSlider");
 let speedSliderLabel = document.getElementById("speedSliderLabel")
 
+let data = {}
+
 let active = false;
 let sayRandomInterval = setInterval(sayRandomTech, 10000000000);
 clearInterval(sayRandomInterval);
@@ -84,6 +86,12 @@ function sayRandomTech() {
     console.log(tech);
     let utterThis = new SpeechSynthesisUtterance(tech);
     synth.speak(utterThis);
+    if (!data[tech]) {
+        data[tech] = 1;
+    }
+    else {
+        data[tech] += 1;
+    }
 }
 b.addEventListener("click", function() {
     sayRandomTech();
@@ -101,6 +109,8 @@ stopButton.addEventListener("click", function() {
     clearInterval(sayRandomInterval);
     if (active) {
         active = false;
+        console.table(data);
+        data = {};
     }
 })
 
