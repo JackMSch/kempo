@@ -80,7 +80,9 @@ const green = [
 const allBelts = yellow.concat(orange).concat(purple).concat(blue).concat(green);
 
 function sayRandomTech() {
-    let utterThis = new SpeechSynthesisUtterance(allBelts[parseInt(Math.random()*allBelts.length)]);
+    tech = allBelts[parseInt(Math.random()*allBelts.length)];
+    console.log(tech);
+    let utterThis = new SpeechSynthesisUtterance(tech);
     synth.speak(utterThis);
 }
 b.addEventListener("click", function() {
@@ -89,15 +91,16 @@ b.addEventListener("click", function() {
 
 startButton.addEventListener("click", function() {
     if (!active) {
-        active = true;
         sayRandomInterval = setInterval(sayRandomTech, 1000*speedSlider.value);
+        active = true;
     }
 });
 
 stopButton.addEventListener("click", function() {
+    console.log("STOP")
+    clearInterval(sayRandomInterval);
     if (active) {
         active = false;
-        clearInterval(sayRandomInterval);
     }
 })
 
