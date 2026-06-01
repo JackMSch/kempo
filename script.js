@@ -1,4 +1,12 @@
 let b = document.getElementById("t");
+let startButton = document.getElementById("start");
+let stopButton = document.getElementById("stop");
+let speedSlider = document.getElementById("speedSlider");
+let speedSliderLabel = document.getElementById("speedSliderLabel")
+
+let active = false;
+let sayRandomInterval = setInterval(sayRandomTech, 10000000000);
+clearInterval(sayRandomInterval);
 
 const synth = window.speechSynthesis;
 
@@ -69,10 +77,29 @@ const green = [
     "Blocking the Sun"
 ];
 
-const allBelts = [yellow,orange,purple,blue,green];
+const allBelts = yellow.concat(orange).concat(purple).concat(blue).concat(green);
 
-b.addEventListener("click", function() {
-    let belt = allBelts[parseInt(Math.random()*allBelts.length)];
-    let utterThis = new SpeechSynthesisUtterance(belt[parseInt(Math.random()*belt.length)]);
+function sayRandomTech() {
+    let utterThis = new SpeechSynthesisUtterance(allBelts[parseInt(Math.random()*allBelts.length)]);
     synth.speak(utterThis);
+}
+b.addEventListener("click", function() {
+    sayRandomTech();
 });
+
+startButton.addEventListener("click", function() {
+    if (!active) {
+        active = true;
+        sayRandomInterval = setInterval(sayRandomTech, 1000*speedSlider.value);
+    }
+});
+
+stopButton.addEventListener("click", function() {
+    if (active) {
+        clearInterval(sayRandomInterval);
+    }
+})
+
+speedSlider.addEventListener("input", function() {
+    speedSliderLabel.textContent = "Speed: " + speedSlider.value;
+})
