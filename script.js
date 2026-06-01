@@ -96,6 +96,7 @@ startButton.addEventListener("click", function() {
 
 stopButton.addEventListener("click", function() {
     if (active) {
+        active = false;
         clearInterval(sayRandomInterval);
     }
 })
