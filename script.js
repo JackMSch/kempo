@@ -112,8 +112,8 @@ stopButton.addEventListener("click", function() {
         console.table(data);
         data = {};
     }
-})
+});
 
 speedSlider.addEventListener("input", function() {
     speedSliderLabel.textContent = "Speed: " + speedSlider.value;
-})
+});
