@@ -4,17 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kempo Techniques</title>
+    <style>
+        .center-text {
+            display: flex;
+            justify-content: center;
+        }
+
+        @font-face {
+            font-family: 'Karate';
+            src: url(Karate.ttf);
+        }
+
+        #techName {
+            font-size: 100px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+    </style>
 </head>
 <body>
     <h1>Kempo Techniques</h1>
-    <input id="speedSlider" type="range" name="speed" min="1" max="10" value="4">
+    <input id="speedSlider" type="range" name="speed" min="2" max="10" value="4">
     <label id="speedSliderLabel" for="speed">Speed: 4</label>
     <br>
-    <button id="t">I love tyson</button>
+    <button id="soloButton">Say a Technique</button>
     <br>
     <button id="start">Start</button>
     <br>
     <button id="stop">Stop</button>
+    <p id="techName" class="center-text">Technique</p>
     <script src="script.js"></script>
 </body>
 </html>

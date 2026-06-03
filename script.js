@@ -1,8 +1,9 @@
-let b = document.getElementById("t");
+let b = document.getElementById("soloButton");
 let startButton = document.getElementById("start");
 let stopButton = document.getElementById("stop");
 let speedSlider = document.getElementById("speedSlider");
 let speedSliderLabel = document.getElementById("speedSliderLabel")
+let tn = document.getElementById("techName");
 
 let data = {}
 
@@ -86,6 +87,7 @@ function sayRandomTech() {
     console.log(tech);
     let utterThis = new SpeechSynthesisUtterance(tech);
     synth.speak(utterThis);
+    tn.textContent = tech;
     if (!data[tech]) {
         data[tech] = 1;
     }
@@ -93,8 +95,19 @@ function sayRandomTech() {
         data[tech] += 1;
     }
 }
+
+function saySingleRandomTech() {
+    window.speechSynthesis.cancel();
+    tech = allBelts[parseInt(Math.random()*allBelts.length)];
+    console.log(tech);
+    let utterThis = new SpeechSynthesisUtterance(tech);
+    synth.speak(utterThis);
+    tn.textContent = tech;
+}
 b.addEventListener("click", function() {
-    sayRandomTech();
+    if (!active) {    
+        saySingleRandomTech();
+    }
 });
 
 startButton.addEventListener("click", function() {
@@ -107,6 +120,7 @@ startButton.addEventListener("click", function() {
 stopButton.addEventListener("click", function() {
     console.log("STOP")
     clearInterval(sayRandomInterval);
+    window.speechSynthesis.cancel();
     if (active) {
         active = false;
         console.table(data);
