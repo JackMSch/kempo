@@ -32,11 +32,22 @@
     <input id="speedSlider" type="range" name="speed" min="2" max="10" value="4">
     <label id="speedSliderLabel" for="speed">Speed: 4</label>
     <br>
+    <input type="checkbox" name="mir" id="mirb">
+    <label for="mir">Mirror Image</label>
+    <br>
+    <input id="mir-slider" type="range" name="mir-slider" min="0" max="100" value="50" step="25">
+    <label for="mir-slider" id="mir-slider-label">Mirror%: 50%</label>
+    <br>
     <button id="soloButton">Say a Technique</button>
     <br>
     <button id="start">Start</button>
     <br>
     <button id="stop">Stop</button>
+    <br>
+    <button id="all">All Techniques</button>
+    <br>
+    <button id="stop-all">Stop All Techniques</button>
+    <br>
     <p id="countdown" class="center-text">0</p>
     <p id="techName" class="center-text">Technique</p>
     <script src="script.js"></script>

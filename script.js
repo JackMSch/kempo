@@ -5,8 +5,17 @@ let speedSlider = document.getElementById("speedSlider");
 let speedSliderLabel = document.getElementById("speedSliderLabel")
 let tn = document.getElementById("techName");
 let ct = document.getElementById("countdown");
+let ab = document.getElementById("all");
+let sall = document.getElementById("stop-all");
+let mir = document.getElementById("mir");
+let mirs = document.getElementById("mir-slider");
+let mirl = document.getElementById("mir-slider-label")
+let mirb = document.getElementById("mirb")
 ct.textContent = speedSlider.value;
 let count = 0;
+let tcount = 0;
+
+console.log(mirb.value);
 
 let data = {}
 
@@ -15,11 +24,24 @@ let sayRandomInterval = setInterval(sayRandomTech, 10000000000);
 clearInterval(sayRandomInterval);
 
 let ctimerInterval = setInterval(ctimer, 1000);
-clearInterval(ctimerInterval)
+clearInterval(ctimerInterval);
+
+let allTimerInterval = setInterval(sayAllTechniques, 1000000000);
+clearInterval(allTimerInterval);
 
 function ctimer() {
     count++;
-    ct.textContent = (speedSlider.value-count%speedSlider.value); 
+    ct.textContent = (speedSlider.value-count%speedSlider.value);
+}
+
+function gmir() {
+    let r = Math.floor(Math.random() * 100);
+    if (r < mirs.value && mirb.checked) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 const synth = window.speechSynthesis;
@@ -93,8 +115,15 @@ const green = [
 
 const allBelts = yellow.concat(orange).concat(purple).concat(blue).concat(green);
 
+mirs.addEventListener("input", function() {
+    mirl.textContent = "Mirror%: " + mirs.value + "%";
+});
+
 function sayRandomTech() {
     tech = allBelts[parseInt(Math.random()*allBelts.length)];
+    if (gmir()) {
+        tech = "Mirror " + tech;
+    }
     console.log(tech);
     let utterThis = new SpeechSynthesisUtterance(tech);
     synth.speak(utterThis);
@@ -107,9 +136,53 @@ function sayRandomTech() {
     }
 }
 
+function sayAllTechniques() {
+    window.speechSynthesis.cancel();
+    tech = allBelts[tcount%allBelts.length];
+    if (gmir()) {
+        tech = "Mirror " + tech;
+    }
+    console.log(tech);
+    let utterThis = new SpeechSynthesisUtterance(tech);
+    synth.speak(utterThis);
+    tn.textContent = tech;
+    tcount+=1;
+    if (!data[tech]) {
+        data[tech] = 1;
+    }
+    else {
+        data[tech] += 1;
+    }
+}
+
+ab.addEventListener("click", function() {
+    if (!active) {
+        allTimerInterval = setInterval(sayAllTechniques, 1000*speedSlider.value);
+        ctimerInterval = setInterval(ctimer, 1000);
+        count = 0;
+        active = true;
+    }
+});
+
+sall.addEventListener("click", function() {
+    if (active) {
+        console.log("STOP ALL TECHNIQUES");
+        clearInterval(allTimerInterval);
+        clearInterval(ctimerInterval)
+        window.speechSynthesis.cancel();
+        active = false;
+        console.table(data);
+        data = {};
+        tcount = 0;
+    }
+});
+
 function saySingleRandomTech() {
     window.speechSynthesis.cancel();
     tech = allBelts[parseInt(Math.random()*allBelts.length)];
+    if (gmir()) {
+        tech = "Mirror " + tech;
+    }
     console.log(tech);
     let utterThis = new SpeechSynthesisUtterance(tech);
     synth.speak(utterThis);
@@ -132,7 +205,7 @@ startButton.addEventListener("click", function() {
 });
 
 stopButton.addEventListener("click", function() {
-    console.log("STOP")
+    console.log("STOP");
     clearInterval(sayRandomInterval);
     clearInterval(ctimerInterval)
     window.speechSynthesis.cancel();
