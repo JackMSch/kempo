@@ -211,6 +211,7 @@ sallt.addEventListener("click", function() {
         console.table(data);
         data = {};
         tcount = 0;
+        mcount = 0;
     }
 });
 
