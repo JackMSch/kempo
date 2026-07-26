@@ -5,17 +5,22 @@ let speedSlider = document.getElementById("speedSlider");
 let speedSliderLabel = document.getElementById("speedSliderLabel")
 let tn = document.getElementById("techName");
 let ct = document.getElementById("countdown");
-let ab = document.getElementById("all");
-let sall = document.getElementById("stop-all");
+/*let ab = document.getElementById("all");
+let sall = document.getElementById("stop-all");*/
 let mir = document.getElementById("mir");
 let mirs = document.getElementById("mir-slider");
 let mirl = document.getElementById("mir-slider-label")
 let mirb = document.getElementById("mirb")
 ct.textContent = speedSlider.value;
+let timesSlider = document.getElementById("times");
+let tsLabel = document.getElementById("times-label");
+let abt = document.getElementById("allt");
+let sallt = document.getElementById("stop-allt");
+let sbox = document.getElementById("splitbox");
 let count = 0;
 let tcount = 0;
-
-console.log(mirb.value);
+let mcount = 0;
+let mtimes = timesSlider.value;
 
 let data = {}
 
@@ -26,13 +31,21 @@ clearInterval(sayRandomInterval);
 let ctimerInterval = setInterval(ctimer, 1000);
 clearInterval(ctimerInterval);
 
-let allTimerInterval = setInterval(sayAllTechniques, 1000000000);
-clearInterval(allTimerInterval);
+/*let allTimerInterval = setInterval(sayAllTechniques, 1000000000);
+clearInterval(allTimerInterval);*/
+
+let allTimerIntervalMult = setInterval(sayAllTechniquesMult, 1000000000);
+clearInterval(allTimerIntervalMult);
 
 function ctimer() {
     count++;
     ct.textContent = (speedSlider.value-count%speedSlider.value);
 }
+
+timesSlider.addEventListener("input", function() {
+    tsLabel.textContent = "Times: " + timesSlider.value;
+    mtimes = timesSlider.value;
+});
 
 function gmir() {
     let r = Math.floor(Math.random() * 100);
@@ -135,7 +148,7 @@ function sayRandomTech() {
         data[tech] += 1;
     }
 }
-
+/*
 function sayAllTechniques() {
     window.speechSynthesis.cancel();
     tech = allBelts[tcount%allBelts.length];
@@ -154,7 +167,54 @@ function sayAllTechniques() {
         data[tech] += 1;
     }
 }
+*/
 
+function sayAllTechniquesMult() {
+    window.speechSynthesis.cancel();
+    tech = allBelts[tcount%allBelts.length];
+    if (gmir() || (sbox.checked && mcount >= mtimes/2)) {
+        tech = "Mirror " + tech;
+    }
+    console.log(tech);
+    let utterThis = new SpeechSynthesisUtterance(tech);
+    synth.speak(utterThis);
+    tn.textContent = tech;
+    mcount += 1;
+    if (mcount == mtimes) {
+        tcount+=1;
+        mcount = 0;
+    }
+    if (!data[tech]) {
+        data[tech] = 1;
+    }
+    else {
+        data[tech] += 1;
+    }
+}
+
+abt.addEventListener("click", function() {
+    if (!active) {
+        allTimerIntervalMult = setInterval(sayAllTechniquesMult, 1000*speedSlider.value);
+        ctimerInterval = setInterval(ctimer, 1000);
+        count = 0;
+        active = true;
+    }
+});
+
+sallt.addEventListener("click", function() {
+    if (active) {
+        console.log("STOP ALL TECHNIQUES");
+        clearInterval(allTimerIntervalMult);
+        clearInterval(ctimerInterval)
+        window.speechSynthesis.cancel();
+        active = false;
+        console.table(data);
+        data = {};
+        tcount = 0;
+    }
+});
+
+/*
 ab.addEventListener("click", function() {
     if (!active) {
         allTimerInterval = setInterval(sayAllTechniques, 1000*speedSlider.value);
@@ -176,6 +236,7 @@ sall.addEventListener("click", function() {
         tcount = 0;
     }
 });
+*/
 
 function saySingleRandomTech() {
     window.speechSynthesis.cancel();

@@ -44,9 +44,21 @@
     <br>
     <button id="stop">Stop</button>
     <br>
-    <button id="all">All Techniques</button>
+    <!--
+        <button id="all">All Techniques</button>
+        <br>
+        <button id="stop-all">Stop All Techniques</button>
+        <br>
+        -->
+    <input name="times" type="range" id="times" min="1" max="10" step="1" value="1">
+    <label for="times" id="times-label">Times: 1</label>
     <br>
-    <button id="stop-all">Stop All Techniques</button>
+    <input type="checkbox" name="splitbox" id="splitbox">
+    <label for="splitbox">Half Mirror?</label>
+    <br>
+    <button id="allt">All Techniques</button>
+    <br>
+    <button id="stop-allt">Stop All Techniques</button>
     <br>
     <p id="countdown" class="center-text">0</p>
     <p id="techName" class="center-text">Technique</p>
